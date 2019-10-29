@@ -18,7 +18,8 @@ declare global {
 	
 	interface PromiseConstructor {
 		
-		any<T>(values: Iterable<TypeOrPromiseLike<T>>): Promise<ReturnResultOrPromiseLike<T>>;
+		any<T = any, R extends ReturnResultOrPromiseLike<T> = ReturnResultOrPromiseLike<T>>(
+			values: Iterable<TypeOrPromiseLike<T>>): Promise<R>
 		
 	}
 	
