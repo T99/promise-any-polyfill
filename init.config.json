@@ -1,0 +1,35 @@
+{
+	
+	"default-github-user-org": "T99",
+	
+	"output-indentation": 2,
+	
+	"self-destruct": true,
+	
+	"find-and-replace-files": [
+		
+		"./.d.ts/main.d.ts",
+		"./js/main.js",
+		"./ts/main.ts",
+		"./gulpfile.js",
+		"./license.md",
+		"./readme.md"
+		
+	],
+	
+	"delete-files": [
+		
+		"./.d.ts/readme.md",
+		"./js/readme.md",
+		"./ts/readme.md",
+		"./ts/tests/readme.md"
+		
+	],
+	
+	"move-files": [
+		
+		["./readme.md.template", "./readme.md"]
+		
+	]
+	
+}
