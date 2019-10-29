@@ -1,24 +1,29 @@
 {
-	"name": "<name>",
-	"version": "<version>",
-	"description": "<desc>",
-	"main": "js/main",
-	"types": ".d.ts/main",
+	"name": "promise-any-polyfill",
+	"version": "0.1.0",
+	"description": "A polyfill for the `Promise.any` function.",
+	"main": "js/implementation",
+	"types": ".d.ts/declaration",
 	"scripts": {
 		"build": "gulp rebuild",
 		"test": "gulp rebuild && jest"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/<github_org>/<base_name>.git"
+		"url": "git+https://github.com/T99/promise-any-polyfill"
 	},
-	"keywords": [],
+	"keywords": [
+		"promises",
+		"promise",
+		"promise.any",
+		"polyfill"
+	],
 	"author": "Trevor Sears <trevorsears.main@gmail.com> (http://trevorsears.io/)",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
-		"url": "https://github.com/<github_org>/<base_name>/issues"
+		"url": "https://github.com/T99/promise-any-polyfill/issues"
 	},
-	"homepage": "https://github.com/<github_org>/<base_name>#readme",
+	"homepage": "https://github.com/T99/promise-any-polyfill#readme",
 	"devDependencies": {
 		"typescript": "latest",
 		"tslint": "latest",
