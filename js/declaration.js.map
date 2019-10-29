@@ -1,1 +1,1 @@
-{"version":3,"file":"declaration.js","sourceRoot":"","sources":["../ts/declaration.ts"],"names":[],"mappings":""}
+{"version":3,"sources":["declaration.js"],"names":["Object","defineProperty","exports","value"],"mappings":"AAAA,aACAA,OAAOC,eAAeC,QAAS,aAAc,CAAEC,OAAO","file":"declaration.js","sourcesContent":["\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\n\n\n"]}
