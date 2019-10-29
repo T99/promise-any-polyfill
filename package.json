@@ -33,6 +33,7 @@
 		"gulp-sourcemaps": "latest",
 		"gulp-typescript": "latest",
 		"gulp-uglify-es": "latest",
-		"jest": "latest"
+		"jest": "latest",
+		"ts-jest": "latest"
 	}
 }

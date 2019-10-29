@@ -4,7 +4,8 @@
  *	Project: promise-any-polyfill
  */
 
-type ReturnResultOrPromiseLike<T> = T extends PromiseLike<infer U> ? U : T;
+export type TypeOrPromiseLike<T> = T | PromiseLike<T>;
+export type ReturnResultOrPromiseLike<T> = T extends PromiseLike<infer U> ? U : T;
 
 /**
  * A type declaration for the upcoming `Promise.any` functionality as implemented in this package.
@@ -13,8 +14,12 @@ type ReturnResultOrPromiseLike<T> = T extends PromiseLike<infer U> ? U : T;
  * @version v0.1.0
  * @since v0.1.0
  */
-interface Promise<T> {
+declare global {
 	
-	any<T>(values: Iterable<T>): Promise<ReturnResultOrPromiseLike<T>>;
+	interface PromiseConstructor {
+		
+		any<T>(values: Iterable<TypeOrPromiseLike<T>>): Promise<ReturnResultOrPromiseLike<T>>;
+		
+	}
 	
 }

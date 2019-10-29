@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1572325952413" clover="3.2.0">
+  <project timestamp="1572325952413" name="All files">
+    <metrics statements="1" coveredstatements="1" conditionals="19" coveredconditionals="11" methods="17" coveredmethods="8" elements="37" coveredelements="20" complexity="0" loc="1" ncloc="1" packages="1" files="1" classes="1"/>
+    <file name="implementation.js" path="/home/trevor/dev/projects/javascript/promise-any-polyfill/js/implementation.js">
+      <metrics statements="1" coveredstatements="1" conditionals="19" coveredconditionals="11" methods="17" coveredmethods="8"/>
+      <line num="1" count="16" type="cond" truecount="11" falsecount="8"/>
+    </file>
+  </project>
+</coverage>

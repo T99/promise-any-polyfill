@@ -60,7 +60,7 @@
 		// More strictly checks function argument types to ensure that the values passed into any given function
 		// actually fulfill the requirements of the designated parameter types.
 		"strictFunctionTypes": true
-	
+		
 	},
 	
 	"exclude": [

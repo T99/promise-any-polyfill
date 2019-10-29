@@ -4,7 +4,7 @@
  *	Project: promise-any-polyfill
  */
 
-type TypeOrPromiseLike<T> = T | PromiseLike<T>;
+import { ReturnResultOrPromiseLike, TypeOrPromiseLike } from "./declaration";
 
 /**
  * An implementation of the upcoming `Promise.any` functionality.
@@ -13,7 +13,7 @@ type TypeOrPromiseLike<T> = T | PromiseLike<T>;
  * @version v0.1.0
  * @since v0.1.0
  */
-Promise.prototype.any = async <T, R extends ReturnResultOrPromiseLike<T>>(values: Iterable<T>): Promise<R> => {
+Promise.any = async <T, R extends ReturnResultOrPromiseLike<T>>(values: Iterable<TypeOrPromiseLike<T>>): Promise<R> => {
 	
 	return new Promise<R>((resolve: (value?: (TypeOrPromiseLike<R>)) => void, reject: (reason?: any) => void): void => {
 		
