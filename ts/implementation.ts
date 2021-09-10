@@ -1,30 +1,26 @@
 /*
- *	Created by Trevor Sears <trevorsears.main@gmail.com>.
- *	10:53 PM -- June 11th, 2019.
- *	Project: promise-any-polyfill
+ * Created by Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/).
+ * 10:53 PM -- June 11th, 2019.
+ * Project: promise-any-polyfill
  */
-
-import { ReturnResultOrPromiseLike, TypeOrPromiseLike } from "./declaration";
 
 /**
  * An implementation of the upcoming `Promise.any` functionality.
- *
- * @author Trevor Sears <trevorsears.main@gmail.com>
- * @version v0.1.0
+ * 
+ * @author Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/)
+ * @version v1.0.0
  * @since v0.1.0
  */
-Promise.any = async <
-	T = any,
-	R extends ReturnResultOrPromiseLike<T> = ReturnResultOrPromiseLike<T>>(values: Iterable<TypeOrPromiseLike<T>>):
-	Promise<R> => {
+Promise.any = <T>(values: Iterable<T | PromiseLike<T>>): Promise<T> => {
 	
-	return new Promise<R>((resolve: (value?: (TypeOrPromiseLike<R>)) => void, reject: (reason?: any) => void): void => {
+	return new Promise<T>((resolve: (value: T) => void, reject: (reason?: any) => void): void => {
 		
 		let hasResolved: boolean = false;
+		let promiseLikes: Array<T | PromiseLike<T>> = [];
 		let iterableCount: number = 0;
 		let rejectionReasons: any[] = [];
 		
-		const resolveOnce: (value?: (TypeOrPromiseLike<R>)) => void = (value?: (TypeOrPromiseLike<R>)): void => {
+		function resolveOnce(value: T): void {
 			
 			if (!hasResolved) {
 				
@@ -33,36 +29,35 @@ Promise.any = async <
 				
 			}
 			
-		};
+		}
 		
-		const rejectionCheck: (reason: any) => void = (reason: any): void => {
+		function rejectionCheck(reason?: any): void {
 			
 			rejectionReasons.push(reason);
 			
 			if (rejectionReasons.length >= iterableCount) reject(rejectionReasons);
 			
-		};
+		}
 		
 		for (let value of values) {
 			
 			iterableCount++;
+			promiseLikes.push(value);
 			
-			if ((value as any).then !== undefined) {
+		}
+		
+		for (let promiseLike of promiseLikes) {
+			
+			if ((promiseLike as PromiseLike<T>)?.then !== undefined ||
+				(promiseLike as Promise<T>)?.catch !== undefined) {
 				
-				let promiseLikeValue: PromiseLike<TypeOrPromiseLike<R>> =
-					value as unknown as PromiseLike<TypeOrPromiseLike<R>>;
+				(promiseLike as Promise<T>)
+					?.then((result: T): void => resolveOnce(result))
+					?.catch((error?: any): void => undefined);
 				
-				promiseLikeValue.then((result: TypeOrPromiseLike<R>): void => resolveOnce(result));
+				(promiseLike as Promise<T>)?.catch((reason?: any): void => rejectionCheck(reason));
 				
-				if ((value as any).catch !== undefined) {
-					
-					let promiseValue: Promise<TypeOrPromiseLike<R>> = promiseLikeValue as Promise<TypeOrPromiseLike<R>>;
-					
-					promiseValue.catch((reason: any): void => rejectionCheck(reason));
-					
-				}
-				
-			}
+			} else resolveOnce(promiseLike as T);
 			
 		}
 		
