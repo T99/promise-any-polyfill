@@ -1,7 +1,7 @@
 /*
- *	Created by Trevor Sears <trevorsears.main@gmail.com>.
- *	8:48 PM -- June 16th, 2019.
- *	Project: promise-any-polyfill
+ * Created by Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/).
+ * 8:48 PM -- June 16th, 2019.
+ * Project: promise-any-polyfill
  */
 
 const gulp = require("gulp");
