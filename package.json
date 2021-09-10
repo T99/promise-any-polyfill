@@ -1,6 +1,6 @@
 {
 	"name": "promise-any-polyfill",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A polyfill for the `Promise.any` function.",
 	"main": "js/implementation",
 	"types": ".d.ts/declaration",
@@ -13,10 +13,12 @@
 		"url": "git+https://github.com/T99/promise-any-polyfill"
 	},
 	"keywords": [
-		"promises",
+		"polyfill",
 		"promise",
+		"promises",
+		"promise-any",
 		"promise.any",
-		"polyfill"
+		"typescript"
 	],
 	"author": "Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/)",
 	"license": "GPL-3.0-or-later",
