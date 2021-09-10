@@ -1,41 +1,42 @@
 /*
- *	Created by Trevor Sears <trevorsears.main@gmail.com>.
- *	11:46 PM -- October 28th, 2019.
- *	Project: promise-any-polyfill
+ * Created by Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/).
+ * 11:46 PM -- October 28th, 2019.
+ * Project: promise-any-polyfill
  */
 
 import "../implementation";
 
 /**
  * Test cases for the Promise.any functionality implemented by this package.
- *
- * @author Trevor Sears <trevorsears.main@gmail.com>
- * @version v0.1.0
+ * 
+ * @author Trevor Sears <trevor@trevorsears.com> (https://trevorsears.com/)
+ * @version v1.0.0
  * @since v0.1.0
  */
 
-function getTimedResolvingPromise<T = any>(msToResolve: number, resolveValue?: T): Promise<T> {
+function getTimedResolvingPromise<T>(msToResolve: number, resolveValue: PromiseLike<T> | T): Promise<T> {
 	
-	return new Promise<T>((resolve: (value?: (PromiseLike<T> | T)) => void): void => {
+	return new Promise<T>((resolve: (value: (PromiseLike<T> | T)) => void): void => {
 		
-		setTimeout(() => resolve(resolveValue), msToResolve);
+		setTimeout((): void => resolve(resolveValue), msToResolve);
 		
 	});
 	
 }
 
-function getTimedRejectingPromise<T = any>(msToReject: number, rejectValue?: T): Promise<T> {
-
-	return new Promise<T>((resolve: (value?: (PromiseLike<T> | T)) => void,
+function getTimedRejectingPromise<T>(msToReject: number, rejectValue?: T): Promise<T> {
+	
+	return new Promise<T>((resolve: (value: (PromiseLike<T> | T)) => void,
 						   reject: (reason?: T) => void): void => {
-
-		setTimeout(() => resolve(rejectValue), msToReject);
-
+		
+		setTimeout((): void => reject(rejectValue), msToReject);
+		
 	});
-
+	
 }
 
-test("The first resolving Promise should be acted upon.", () => {
+test("The first resolving Promise should be acted upon.", 
+	async (): Promise<void> => {
 	
 	let promises: Array<Promise<string>> = [
 		getTimedResolvingPromise(20, "yes"),
@@ -43,47 +44,40 @@ test("The first resolving Promise should be acted upon.", () => {
 		getTimedResolvingPromise(65, "nuh-uh")
 	];
 	
-	Promise.any<string>(promises).then((result: string) => {
-		
-		expect(result).toBe("yes");
-		
-	});
+	expect(await Promise.any<string>(promises)).toBe("yes");
 
 });
 
-test("Rejecting Promises should not effect the acted-upon value so long as some Promise resolves.", () => {
+test("Rejecting Promises should not effect the acted-upon value so long as some Promise resolves.", 
+	async (): Promise<void> => {
 	
 	let promises: Array<Promise<string>> = [
 		getTimedRejectingPromise(5, "ignore me"),
-		getTimedResolvingPromise(50, "yes"),
-		getTimedResolvingPromise(85, "nuh-uh")
+		getTimedRejectingPromise(50, "nuh-uh"),
+		getTimedResolvingPromise(85, "yes")
 	];
 	
-	Promise.any<string>(promises).then((result: string) => {
-		
-		expect(result).toBe("yes");
-		
-	});
+	expect(await Promise.any<string>(promises)).toBe("yes");
 	
 });
 
-test("If all Promises reject, Promise.any should reject.", () => {
+test("If all Promises reject, Promise.any should reject.", 
+	async (): Promise<void> => {
 	
+	console.log(`hello world`);
+		
 	let promises: Array<Promise<string>> = [
-		getTimedRejectingPromise(5, "ignore me"),
-		getTimedResolvingPromise(50, "yes"),
-		getTimedResolvingPromise(85, "nuh-uh")
+		getTimedRejectingPromise(25, "ignore me"),
+		getTimedRejectingPromise(50, "yes"),
+		getTimedRejectingPromise(75, "nuh-uh")
 	];
 	
-	Promise.any<string>(promises).then((result: string) => {
-		
-		fail("Promise.any resolved even though none of it's provided Promises resolved.");
-		
-	});
+	return expect(Promise.any(promises)).rejects.toStrictEqual(["ignore me", "yes", "nuh-uh"]);
 	
 });
 
-test("Given some non-Promise items, Promise.any should return the first of these.", () => {
+test("Given some non-Promise items, Promise.any should return the first of these.", 
+	async (): Promise<void> => {
 	
 	let iterable: Array<any> = [
 		getTimedRejectingPromise(5, "ignore me"),
@@ -92,10 +86,6 @@ test("Given some non-Promise items, Promise.any should return the first of these
 		getTimedResolvingPromise(85, "nuh-uh")
 	];
 	
-	Promise.any<string>(iterable).then((result: string) => {
-		
-		expect(result).toBe("Hello there!");
-		
-	});
+	expect(await Promise.any<string>(iterable)).toBe("Hello there!");
 	
 });
